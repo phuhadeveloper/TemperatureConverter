@@ -1,33 +1,31 @@
 package com.example.unitconvertertesting
 
-import android.graphics.drawable.Icon
+/*
+* author: Phu Ha
+* date: June 30th, 2024
+*
+* This program is a temperature conversion app where users can convert temperature
+* from one unit to another.
+*
+* */
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Button
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -54,6 +52,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// main UI
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UnitConverter(
@@ -61,34 +60,41 @@ fun UnitConverter(
 
 ) {
     // states
+    // store user input
     var input by remember {
         mutableStateOf("")
     }
 
+    // store conversion result
     var result by remember {
         mutableStateOf("")
     }
 
+    // state of dropdown menu 1
     var expanded1 by remember {
         mutableStateOf(false)
     }
 
+    // state of dropdown menu 2
     var expanded2 by remember {
         mutableStateOf(false)
     }
 
+    // options for dropdown menu
     val options = listOf("Fahrenheit", "Celsius", "Kelvin")
 
+    // option selected for dropdown menu 1
     var selectedOptionText1 by remember {
         mutableStateOf(options[0])
     }
 
+    // option selected for dropdown menu 2
     var selectedOptionText2 by remember {
         mutableStateOf(options[0])
     }
+    // end states
 
     // UI
-
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -101,11 +107,16 @@ fun UnitConverter(
 
         Column(
         ) {
+
             Text(text = "From:")
+
+            // for user input
             TextField(
                 value = input,
                 onValueChange = { input = it }
             )
+
+            // first dropdown menu
             ExposedDropdownMenuBox(
                 expanded = expanded1,
                 onExpandedChange = {
@@ -144,6 +155,7 @@ fun UnitConverter(
         Column {
             Text(text = "To:")
 
+            // second dropdown menu
             ExposedDropdownMenuBox(
                 modifier = modifier.padding(vertical = 10.dp),
                 expanded = expanded2,
@@ -178,6 +190,7 @@ fun UnitConverter(
                 }
             }
 
+            // display result here
             TextField(
                 value = result,
                 onValueChange = { input = it },
@@ -186,7 +199,7 @@ fun UnitConverter(
         }
 
 
-
+        // button that signal the conversion
         Button(onClick = {
             result = convertTemperature(input.toDouble(), selectedOptionText1, selectedOptionText2).toString()
         }) {
